@@ -70,7 +70,9 @@ SQL과 관련되서 공부한 것을 기록
 
 
 
+### CT
 
+Computational Thinking
 
 
 
