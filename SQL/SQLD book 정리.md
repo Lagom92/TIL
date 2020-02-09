@@ -570,7 +570,7 @@ SQL 전문가 가이드 2010 Edition을 공부한 내용을 정리했다.
 
 <br/>
 
-### ALTER TABLE
+### 3. ALTER TABLE
 
 - 칼럼을 추가/삭제하거나 제약조건을 추가/삭제
 
@@ -660,6 +660,54 @@ SQL 전문가 가이드 2010 Edition을 공부한 내용을 정리했다.
    <br/>
 
 4. DROP CONSTRAINT
+
+   - 테이블 생성 시 부여했던 제약조건을 삭제하는 명령어
+
+     ```
+     ALTER TABLE 테이블명
+     DROP CONSTRAINT 제약조건명;
+     ```
+
+   <br/>
+
+5. ADD CONSTRAINT
+
+   - 테이블 생성 시 제약조건을 적용하지 않았다면, 생성 이후에 필요에 의해서 제약조건을 추가할 수 있다.
+
+   - 특정 칼럼에 제약조건을 추가하는 명령어 
+
+     ```
+     ALTER TABLE 테이블명
+     ADD CONSTRAINT 제약조건명 제약조건 (칼럼명);
+     ```
+
+   
+
+   <br/>
+
+### 4. RENAME TABLE
+
+- RENAME 명령어를 사용하여 테이블의 이름을 변경
+
+  ```
+  RENAME 변경전 테이블명 TO 변경후 테이블명;
+  ```
+
+- SQL Server에서는 sp_rename을 이용하여 테이블 이름을 변경
+
+  ```
+  sp_rename 변경전 테이블명, 변경후 테이블명;
+  ```
+
+
+
+<br/>
+
+### 5. DROP TABLE
+
+- 
+
+
 
 
 
