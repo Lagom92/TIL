@@ -26,3 +26,12 @@
 
 - 참고
   -  https://www.youtube.com/playlist?list=PLxMkK1K0XECOj2sZG-gCk-CjvZhJ_75I4 
+
+
+
+<br/>
+
+### Book
+
+- 여러 책을 읽고 내용을 기록해둔 것
+
