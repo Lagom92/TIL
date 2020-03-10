@@ -72,11 +72,11 @@
 
 | Result                      | 입력할 수식                                  |
 | --------------------------- | -------------------------------------------- |
-| ![](./img/typora/행렬1.PNG) | \begin{pmatrix} x & y \\ z & v \end{pmatrix} |
-| ![](./img/typora/행렬2.PNG) | \begin{Bmatrix} x & y \\ z & v \end{Bmatrix} |
-| ![](./img/typora/행렬3.PNG) | \begin{vmatrix} x & y \\ z & v \end{vmatrix} |
-| ![](./img/typora/행렬4.PNG) | \begin{Vmatrix} x & y \\ z & v \end{Vmatrix} |
-| ![](./img/typora/행렬5.PNG) | \begin{matrix} x & y \\ z & v \end{matrix}   |
+| ![](./img/typora/행렬1.PNG) | \begin{pmatrix} x & y \\\ z & v \end{pmatrix} |
+| ![](./img/typora/행렬2.PNG) | \begin{Bmatrix} x & y \\\ z & v \end{Bmatrix} |
+| ![](./img/typora/행렬3.PNG) | \begin{vmatrix} x & y \\\ z & v \end{vmatrix} |
+| ![](./img/typora/행렬4.PNG) | \begin{Vmatrix} x & y \\\ z & v \end{Vmatrix} |
+| ![](./img/typora/행렬5.PNG) | \begin{matrix} x & y \\\ z & v \end{matrix}   |
 
 
 
@@ -94,7 +94,7 @@
 | ![](./img/typora/사각괄호.PNG)   | \left[ A \right]             |
 | ![](./img/typora/집합괄호.PNG)   | \left\{ A \right\}           |
 | ![](./img/typora/부등호괄호.PNG) | \left\langle A \right\rangle |
-| ![](./img/typora/바.PNG)         | \left                        |
+| ![](./img/typora/바.PNG)         | \left  \| A \right \|           |
 
 
 
