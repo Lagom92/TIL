@@ -1,10 +1,6 @@
-# 트리(Tree) - 2
+# 트리(Tree)-3
 
-## 5. 파이썬 객체지향 프로그래밍으로 링크드 리스트 구현하기
-
-<br/>
-
-### 5.1. 노드 클래스 만들기
+### 5.3. 이진 탐색 트리 검색(search)
 
 ```python
 class Node:
@@ -12,17 +8,8 @@ class Node:
         self.value = value
         self.left = None
         self.right = None
-```
 
 
-
-<br/>
-
-### 5.2. 이진 탐색 트리에 데이터 넣기
-
-- 이진 탐색 트리 조건에 부합하게 데이터를 넣어야 함
-
-```python
 class NodeMgmt:
     def __init__(self, head):
         self.head = head
@@ -45,29 +32,48 @@ class NodeMgmt:
                 else:
                     self.current_node.right = Node(value)
                     break
+
+    def search(self, value):
+        self.current_node = self.head
+        while self.current_node:
+            # 현재값이 찾는 값일 경우
+            if self.current_node.value == value:
+                return True
+            # 왼쪽
+            elif value < self.current_node.value:
+                self.current_node = self.current_node.left
+            # 오른쪽
+            else:
+                self.current_node = self.current_node.right
+
+        return False
 ```
+
+<br/>
+
+- Code 확인하기
+
+```python
+head = Node(1)
+BST = NodeMgmt(head)
+BST.insert(22)
+BST.insert(3)
+BST.insert(4)
+BST.insert(5)
+
+print(BST.search(3))
+print(BST.search(7))
+
+# True
+# False
+```
+
+
+
+
 
 
 
 <br/>
 
-- Tree에 data 넣기
-
-```
-head = Node(1)
-BST = NodeMgmt(head)
-BST.insert(2)
-```
-
-
-
-
-
-
-
-
-
-
-
-<br/><br/>
-
+<br/>
