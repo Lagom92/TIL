@@ -13,13 +13,13 @@ n	result
 
 
 def solution(n):
-    res = set(i for i  in range(3, n+1, 2))
-
-    for i in range(n):
+    res = set(range(2, n+1))
+    
+    for i in range(2, n+1):
         if i in res:
             res -= set(range(i*2, n+1, i))
-            
-    return  len(res) + 1
+    
+    return len(res)
 
 
 n = 5
