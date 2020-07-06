@@ -4,11 +4,23 @@
 
 
 
+<br/>
+
+### Repository
+
+1. Computational Thinking, Scratch
+   - CT
+   - Scratch
+2. C
+   - C언어 기초
+
+
+
 
 
 <br/>
 
-
+<br/>
 
 ### Reference
 
