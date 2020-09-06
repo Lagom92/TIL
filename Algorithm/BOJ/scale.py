@@ -18,7 +18,21 @@ def scale(num_list):
     else:
         return "mixed"
 
-
 num_list = list(map(int, input().split()))
 res = scale(num_list)
+print(res)
+
+
+
+# 다른 방법
+def func(lst):
+    if lst == sorted(lst):
+        return "ascending"
+    elif lst == sorted(lst, reverse=True):
+        return "descending"
+    else:
+        return "mixed"
+
+num_list = list(map(int, input().split()))
+res = func(num_list)
 print(res)
