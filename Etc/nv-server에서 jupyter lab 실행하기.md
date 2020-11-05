@@ -21,7 +21,7 @@ cmd 열기
 connect
 
 ````
-sft winscp raplab-hackathon
+sft ssh raplab-hackathon
 ````
 
 
