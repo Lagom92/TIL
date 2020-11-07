@@ -71,6 +71,12 @@ nvidia deeplearning examples
 
 
 
+**모든 입력 이미지와 라벨은 png 형식이어야합니다.**
+
+출처: https://docs.nvidia.com/clara/tlt-mi/clara-train-sdk-v3.0/nvmidl/model.html
+
+
+
 <br/>
 
 ### Reference
