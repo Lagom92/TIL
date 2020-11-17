@@ -67,6 +67,58 @@ from tensorflow.python.compiler.tensorrt import trt_convert as trt
 
 <br/>
 
+## 가속화 기술
+
+<br/>
+
+### Quantization & Precision Calibration(양자화 및 정밀도 캘리브레이션)
+
+- 딥러닝의 학습 및 추론에서 정밀도(Precision)을 낮추는 일은 거의 일반적인 방법이다.
+- 낮은 정밀도를 가지는 신경말일 수록 데이터의 크기 및 가중치들의 bit 수가 작기 때문에 더 빠르고 효율적인 연산이 가능하다. 
+- 이를 위한 양자화 기법 중 TensorRT는 Symmetric Linear Quatization을 사용하고 있으며, 이를 통해 딥러닝 프레임워크의 일반적인 FP32의 데이터를 FP16 및 INT8의 데이터 타입으로 정밀도를 낮출 수 있다.
+
+<br/>
+
+![](./img/quantization_and_precision_calibration.png)
+
+<br/>
+
+- 일반적으로 FP16의 데이터 타입으로 정밀도를 낮추는 것은 모델 정확도에 큰 영향을 주지는 않는다.
+- INT8의 데이터 타입으로 정밀도를 낮추는 것은 모델 정확도에 영향을 주기 때문에 추가적으로 캘리브레이션 작업이 필요하다.
+- 이를 위해 TensorRT에서는 EntropyCalibrator, EntropyCalibrator2, MinMaxCalibrator를 지원하고 있다.
+- 이를 활용하여 양자화 시 가중치 및 intermediate tensor들의 정보의 손실을 최소화 할 수 있다.
+
+
+
+<br/>
+
+### Graph Optimization(그래프 최적화)
+
+- TensorRT에서는 Layer Fusion 방식과 Tensor Fusion 방식을 동시에 적용하고 있다.
+- Layer Fusion은 Vertical Layer Fusion, Horizontal Layer Fusion이 적용되고, Tensor Fusion이 적용되어 모델 그래프를 단순화 시켜주어 모델의 Layer 수가 크게 감소하게 된다.
+
+
+
+<br/>
+
+### Kernel Auto-tuning(커널 자동 튜닝)
+
+
+
+
+
+<br/>
+
+### Dynamic Tensor Memory & Multi-stream execution(동적 텐서 메모리 및 멀티 스트림 실행)
+
+
+
+
+
+
+
+<br/>
+
 #### :warning:주의 사항:warning:
 
 버전 체크 !!!
