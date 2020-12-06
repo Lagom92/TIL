@@ -162,7 +162,25 @@ print("Other scores will be ", tf.model.predict([[60, 70, 110], [90, 100, 80]]))
 
 ### Queue Runners
 
+tf_1.x
 
+```
+tf.train.string_input_producer()
+
+tf.TextLineReader()
+
+tf.train.batch()
+
+tf.train.Coordinator()
+
+tf.train.start_queue_runners()
+```
+
+
+
+<br/>
+
+### shuffle_batch
 
 
 
