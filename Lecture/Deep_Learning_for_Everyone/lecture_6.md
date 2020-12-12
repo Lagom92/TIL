@@ -42,7 +42,15 @@ A인지 아닌지를 구분하는 선 과 B인지 아닌지 구분하는 선 그
 
 
 
+<br/>
 
+### Cross-entropy cost function
+
+
+
+<br/>
+
+#### 자세한 공부 필요 !
 
 
 
