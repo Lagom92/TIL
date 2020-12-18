@@ -75,4 +75,44 @@ padding 사용 이유: 입력의 사이즈와 출력의 사이즈를 같게 하�
 
 <br/>
 
+<br/>
+
+# Lecture 11-2
+
+## CNN introduction: Max pooling and others
+
+<br/>
+
+### Pooling layer(sampling)
+
+
+
+<br/>
+
+### Max pooling
+
+![](./img/max_pooling.png)
+
+
+
+<br/>
+
+sampling
+
+
+
+<br/>
+
+### Fully Connected Layer (FC layer)
+
+
+
+
+
+
+
+
+
+<br/>
+
 <br/><br/>
