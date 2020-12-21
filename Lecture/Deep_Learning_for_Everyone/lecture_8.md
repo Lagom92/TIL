@@ -20,7 +20,33 @@
 
 
 
--ing
+<br/>
+
+### Backpropagation
+
+
+
+<br/>
+
+### Convolutional Neural Networks 
+
+
+
+<br/>
+
+<br/>
+
+# Lecture08-2
+
+## Backpropagation
+
+
+
+
+
+
+
+
 
 <br/>
 
