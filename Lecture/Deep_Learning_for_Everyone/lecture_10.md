@@ -91,3 +91,85 @@ W = np.random.randn(fan_in, fan_out) / np.sqrt(fan_in/2)
 
 <br/>
 
+# Lecture 10-3
+
+## NN dropout and model ensemble
+
+
+
+<br/>
+
+### Overfitting
+
+
+
+<br/>
+
+### Regularization
+
+
+
+<br/>
+
+### Dropout
+
+- A simple way to prevent neural networks from overfitting [Srivastava et al.2014]
+
+
+
+<br/>
+
+### Ensemble
+
+
+
+<br/>
+
+ <br/>
+
+# Lecture 10-4
+
+## NN LEGO Play
+
+
+
+<br/>
+
+### Feedforward neural network
+
+
+
+<br/>
+
+### Fast forward
+
+![](./img/fast_forward.png)
+
+
+
+<Br/>
+
+### Split & merge
+
+- ex) CNN
+
+
+
+<br/>
+
+### Recurrent network
+
+- ex) RNN
+
+
+
+<br/>
+
+<br/>
+
+
+
+
+
+
+
