@@ -18,6 +18,42 @@
 
 <br/>
 
+<br/>
+
+# Lab 12-1
+
+## RNN Basics
+
+
+
+<br/>
+
+### RNN in Tensorflow
+
+
+
+<br/>
+
+One hot encoding
+
+
+
+<br/>
+
+### Unfolding to n sequences
+
+
+
+<br/>
+
+### Batching input
+
+batch_size
+
+
+
+<br/>
+
 
 
 
