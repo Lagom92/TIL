@@ -2,7 +2,6 @@
 # https://programmers.co.kr/learn/courses/30/lessons/12904
 
 
-
 '''
 효율성 실패
 
@@ -24,3 +23,14 @@ def solution(s):
 s = "토마토맛토마토"    # ans=7
 ans = solution(s)
 print(ans)
+
+
+# 다른 사람 코드
+def longest_palindrom(s):
+    for i in range(len(s),0,-1):  # 큰 길이 -> 작은 길이
+        for j in range(len(s)-i+1):
+            if s[j:j+i] == s[j:j+i][::-1]:  # 팰린드롬이라면 
+                return i
+
+s = "abacde"
+print(longest_palindrom(s))
