@@ -54,6 +54,30 @@ batch_size
 
 <br/>
 
+<br/>
+
+# Lab 12-2
+
+## Hi Hello RNN
+
+
+
+<br/>
+
+### One-hot encoding
+
+![](./img/one_hot_encoding.png)
+
+
+
+<br/>
+
+![](./img/Teach_RNN.png)
+
+
+
+<br/>
+
 
 
 
