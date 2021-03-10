@@ -2,6 +2,8 @@
 
 You Only Look Once
 
+논문 번역
+
 
 
 <br/>
@@ -74,6 +76,12 @@ R-CNN은 이미지 안에서 bounding box를 생성하기 위해 region proposal
 하나의 컨볼루션 네트워크(convolutional network)가 여러 bounding box와 그 bounding box의 클래스 확률을 동시에 계산해 준다.
 
 YOLO는 이미지 전체를 학습하여 곧바로 검출 성능(detection performance)을 최적화한다.
+
+
+
+<br/>
+
+![](./img/yolo_detection_system.png)
 
 
 
@@ -252,6 +260,12 @@ class-specific confidence score는 다음과 같이 계산할 수 있다.
 <br/>
 
 이 score는 bounding box에 특정 클래스 객체가 나타날 확률(=Pr(Class_i))과 예측된 bounding box가 그 클래스 객체에 얼마나 잘 들어맞는지(fits the object)(=IOU_pred^truth)를 나타낸다.
+
+
+
+<br/>
+
+![](./img/yolo_fig2_model.png)
 
 
 
@@ -473,13 +487,199 @@ ground-truth bounding box와의 IOU가 가장 크다는 것은 객체를 가장 
 
 위 loss function의 5개 식은 차례대로 아래와 같은 의미를 갖는다.
 
-1) 
+1) Object가 존재하는 그리드 셀 i의 bounding box predictor j에 대해, x와 y의 loss를 계산
+
+2) Object가 존재하는 그리드 셀 i의 bounding box predictor j에 대해, w와 h의 loss를 계산. 
+
+큰 box에 대해서는 작은 분산(small deviation)을 반영하기 위해 제곱근을 취한 후, sum-squared error(SSE)를 구한다.(같은 error라도 큰 box의 경우 상대적으로 IOU에 영향을 적게 준다.)
+
+3) Object가 존재하는 그리드 셀 i의 bounding box predictor j에 대해, confidence score의 loss를 계산.(Ci = 1)
+
+4) Object가 존재하지 않는 그리드 셀 i의 bounding box prdictor j에 대해, confidence score의 loss를 계산.(Ci = 0)
+
+5) Object가 존재하는 그리드 셀 i에 대해, conditional class probability의 loss를 계산. 
+
+(p_i(c) = 1 if class c is correct, otherwise: p_i(c) = 0)
 
 
 
+<br/>
+
+λ_coord: coordinates(x, y, w, h)에 대한 loss와 다른 loss들과의 균형을 위한 balancing parameter
+
+λ_noobj: 객체가 있는 box와 없는 box 간에 균형을 위한 balancing parameter.(일반적으로 image내에는 객체가 있는 그리드 셀보다는 없는 셀이 훨씬 많으므로)
 
 
 
+<br/>
+
+YOLO 연구진은 파스칼 VOC 2007, 2012 훈련 및 검증 데이터 셋을 활용하여 135 epochs로 YOLO 모델을 훈련 시켰다.
+
+이때 batch_size=64, momentum=0.9, decay=0.0005로 설정했다.
+
+초반에는 학습률(learning rate)을 0.001에서 0.01로 천천히 상승시켰다.
+
+만일 처음부터 높은 learning rate로 훈련시켰다면 기울기 폭발(gradient explosion)이 발생하기 때문에 처음에는 작은 값부터 시작한 것이다.
+
+이후 75 epoch 동안에는 0.01, 30 epoch 동안에는 0.001, 그리고 마지막 30 epoch 동안은 0.0001로 learning rate를 설정했다.
+
+learning rate를 처음에는 점점 증가시켰다가 다시 감소시켰다.
+
+
+
+<br/>
+
+과적합(overfitting)을 막기 위해 드롭아웃(dropout)과 data augmentation을 적용했다.
+
+드롭아웃 비율은 0.5로 설정했다.
+
+data augmentation을 위해 원본 이미지의 20%까지 랜덤 스케일링(random scaling)과 랜덤 이동(random translation)을 적용했다.
+
+
+
+<br/>
+
+#### Training 요약
+
+- ImageNet 데이터 셋으로 YOLO의 앞단 20개의 컨볼루션 계층을 사전 훈련시킨다.
+
+- 사전 훈련된 20개의 컨볼루션 계층 뒤에 4개의 컨볼루션 계층 및 2개의 전결합 계층을 추가한다.
+
+- YOLO 신경망의 마지막 계층에는 선형 활성화 함수(linear activation function)를 적용하고, 나머지 모든 계층에는 leaky ReLU를 적용한다.
+
+- 구조상 문제 해결을 위해 아래 3가지 개선안을 적용한다.
+
+  1) localization loss와 classification loss 중 localization loss의 가중치를 증가시킨다.
+
+  2) 객체가 없는 그리드 셀의 confidence loss보다 객체가 존재하는 그리드 셀의 confidence loss의 가중치를 증가시킨다.
+
+  3) bounding box의 너비(width)와 높이(height)에 square root를 취해준 값을 loss function으로 사용한다.
+
+- 과적합(overfitting)을 막기 위해 드롭아웃(dropout)과 data augmentation을 적용한다.
+
+
+
+<br/>
+
+### 2.3. Inference
+
+train 단계와 마찬가지로, inference 단계에서도 테스트 이미지로부터 객체를 검출하는 데에는 하나의 신경망 계산만 하면 된다.
+
+파스칼 VOC 데이터셋에 대해서 YOLO는 한 이미지 당 98개의 bounding box를 예측해주고, 그 bounding box마다 클래스 확률(class probabilities)을 구해준다.
+
+YOLO는 테스트 단계에서 굉장이 빠르다.
+
+왜냐하면 YOLO는 R-CNN 등과 다르게 하나의 신경망 계산(a single network evaluation)만 필요하기 때문이다.
+
+
+
+<br/>
+
+하지만 YOLO의 그리드 디자인(grid design)은 한 가지 단점이 있다.
+
+하나의 객체를 여러 그리드 셀이 동시에 검출하는 경우가 있다는 점이다.
+
+객체의 크기가 크거나 객체가 그리드 셀 경계에 인접해 있는 경우, 그 객체에 대한 bounding box가 여러 개 생길 수 있다.
+
+즉, 하나의 그리드 셀이 아닌 여러 그리드 셀에서 해당 객체에 대한 bounding box를 예측할 수 있다는 뜻이다.
+
+하나의 객체가 정확히 하나의 그리드 셀에만 존재하는 경우에는 이런 문제가 없지만 객체의 크기, 객체의 위치에 따라 충분히 이런 문제가 발생할 수 있다.
+
+이를 **다중 검출(multiple detections) 문제**라고 한다.
+
+이런 다중 검출 문제는 NMS(non-maximal suppression)라는 방법을 통해 개선할 수 있다.
+
+YOLO는 NMS를 통해 mAP를 2 ~ 3% 가량 향상시켰다.
+
+
+
+<br/>
+
+### 2.4. Limitations of YOLO
+
+YOLO는 하나의 그리드 셀마다 두 개의 bounding box를 예측한다.
+
+그리고 하나의 그리드 셀마다 오직 하나의 객체만 검출할 수 있다.
+
+이는 공간적 제약(spatial constraints)을 야기한다.
+
+공간적 제약이란 '하나의 그리드 셀은 오직 하나의 객체만 검출하므로 하나의 그리드 셀에 두 개 이상의 객체가 붙어있다면 이를 잘 검출하지 못하는 문제'를 뜻한다.
+
+예를 들어, 새 떼와 같이 작은 물체가 몰려 있는 경우 공간적 제약 때문에 객체 검출이 제한적일 수 밖에 없습니다.
+
+하나의 그리드 셀은 오직 하나의 객체만 검출하는데 여러 객체가 몰려있으면 검출하지 못하는 객체도 존재하는 것이다.
+
+
+
+<br/>
+
+그리고 YOLO 모델은 데이터로부터 bounding box를 예측하는 것을 학습하기 때문에 훈련 단계에서 학습하지 못했던 새로운 종횡비(aspect ratio, 가로 세로 비율)를 마주하면 고전할 수 밖에 없다.
+
+
+
+<br/>
+
+마지막으로 YOLO 모델은 큰 bounding box와 작은 bounding box의 loss에 대해 동일한 가중치를 둔다는 단점이 있다.
+
+크기가 큰 bounding box는 위치가 약간 달라져도 비교적 성능에 별 영향을 주지 않는데, 크기가 작은 bounding box는 위치가 조금만 달라져도 성능에 큰 영향을 줄 수 있다.
+
+큰 bounding box에 비해 작은 bounding box가 위치 변화에 따른 IOU 변화가 더 심하기 때문이다.
+
+이를 **부정확한 localization 문제**라고 부른다.
+
+
+
+<br/>
+
+#### Limitations of YOLO 요약
+
+- 작은 객체들이 몰려있는 경우 검출을 잘 못한다.
+- 훈련 단계에서 학습하지 못한 종횡비(aspect ratio)를 테스트 단계에서 마주치면 고전한다.
+- 큰 bounding box와 작은 bounding box의 loss에 대해 동일한 가중치를 둔다.
+
+
+
+<br/>
+
+## 3. Comparison to Other Detection Systems
+
+*생략*
+
+
+
+<br/>
+
+## 4. Experiments
+
+4.1. Comparison to Other Real-Time Systems
+
+4.2. VOC 2007 Error Analysis
+
+4.3. Combining Fast R-CNN and YOLO
+
+4.4. VOC 2012 Results
+
+4.5. Generalizability: Person Detection in Artwork
+
+
+
+*생략*
+
+
+
+<br/>
+
+## 5. Real-Time Detection In The Wild
+
+*생략*
+
+
+
+<br/>
+
+## 6. Conclusion
+
+*생략*
 
 
 
@@ -500,3 +700,4 @@ ground-truth bounding box와의 IOU가 가장 크다는 것은 객체를 가장 
 ### Reference
 
 - https://arxiv.org/pdf/1506.02640.pdf
+- https://bkshin.tistory.com/entry/%EB%85%BC%EB%AC%B8-%EB%A6%AC%EB%B7%B0-YOLOYou-Only-Look-Once
