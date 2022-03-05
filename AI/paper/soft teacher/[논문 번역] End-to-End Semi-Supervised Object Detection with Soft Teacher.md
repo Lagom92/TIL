@@ -2,8 +2,6 @@
 
 
 
-<br/>
-
 ## Abstract
 
 이 논문은 이전(multi-stage methods)과 다른 end-to-end의 semi-supervised object detection 방법을 제안한다. 학습을 진행하면서 점진적으로 pseudo label의 퀄리티를 향상시키며,  점점 더 정확한 pseudo label은 object detection 훈젼에 도움이 된다. 
@@ -210,6 +208,117 @@ $$
 
 ### 3.3. Box Jittering
 
+그림(Figure) 3의 b와 같이, box candidates의 localization accuracy 와 foreground score가 강한 양의 상관관계를 보여주지 않으므로 foreground score가 높은 box는 정확한 localization information을 제공하지 못할 수 있다. foreground score에 따라서 teacher generated pseudo boxes를 선택하는 것은 box regression에 정합하지 않고 더 나은 기준이 필요된다.
+
+regression prediction의 일관성(consistency)을 측정하여 candidate pseudo box의 localization reliability를 추정하는 직관적인 접근법을 소개한다. 특히 teacher generated pseudo box candidate b_i가 주어졌을때, b_i 주위에 jittered box를 샘플로 추출하고, jittered box를 teacher 모델에 넣어서 refind box  ^bi 를 얻는다. 이는 다음과 같이 공식화된다.
+
+<br/>
+
+![](./img/jittered_box_refine.png)
+
+<br/>
+
+위의 방법(precedure)는 여러번 반복되어 refined jittered boxes {^b_i,j} 의 N_jitter의 set를 모은다. 그리고 우리는 localization reliability를  box regression variance으로 정의한다.
+
+<br/>
+
+![](./img/box_regression_variance.png)
+
+![](./img/standard_derivation.png)
+
+<br/>
+$$
+\sigma_{k}
+$$
+standard derivation of the k-th coordinate of the refined jittered boxes set {^b_i,j}
+$$
+\hat\sigma^{}_{k}
+$$
+normalized 
+$$
+h(b_{i}) \ and \ w(b_{i})
+$$
+height and width of box candidate b_i
+
+
+
+<br/>
+
+box regression variance이 작을 수록 localization reliability가 높다는 것을 나타낸다. 그러나, 모든 pseudo box 후보(candidates)의 box regression variances를 계산하는 것은 training 중에 견딜 수 없다. 그러므로, 실제로는 foreground score가 0.5보다 큰 boxes에 대한 reliability 만 계산한다. 이러한 방식으로 추정(estimated)해야 하는 box의 수는 이미지당 평균 수백개에서 약 17개로 줄어들기 때문에 계산 비용은 거의 무시될수 있다.
+
+그림 3의 c에서, 우리는 localization accuracy와 box regression variance 사이의 상관 관계를 설명한다. foreground score와 비교하면, box regression variance는 localization accuracy 보다 더 잘 측정할 수 있다. 이것은 box regression variance가 threshold보다 작은 box candidates를 unlabeled 이미지에 대한 box regression branch를 훈련시키기 위한 pseudo label로 선택하도록 동기를 부여한다. unlabeled data에 대한 box regression을 training하기 위한 pseudo boxes ς 가 주어지면, regression loss은 다음과 같이 공식화 된다.
+
+<br/>
+
+![](./img/regression_loss.png)
+
+<br/>
+$$
+b^{fg}_{i}
+$$
+i-th box aggigned as foreground
+$$
+N^{fg}_{b}
+$$
+total number of foreground box
+$$
+l_{reg}
+$$
+box regression loss
+
+
+
+<br/>
+
+그러므로, 공식 4번과 10번을 3번에 적용함으로써 unlabeled 이미지의 loss는 다음과 같다.
+
+<br/>
+
+![](./img/loss_of_unlabeled_images.png)
+
+<br/>
+
+여기서는 pseudo boxes ς_cls 와 ς _reg 를 loss의 입력으로 사용하여 classification 과 box regression에 사용되는 pseudo boxes가 우리의 접근 방식에서 다르다는 사실을 강조한다.
+
+ 
+
+<br/>
+
+## 4. Experiments
+
+### 4.1. Dataset and Evaluation Protocol
+
+
+
+<br/>
+
+### 4.2. Implementation Details
+
+
+
+
+
+<br/>
+
+### 4.3. System Comparison
+
+
+
+
+
+<br/>
+
+### 4.4. Ablation Studies
+
+
+
+
+
+<br/>
+
+## 5. Conclusion
+
+이 논문에서, 우리는 이전 접근법에의해 채택된 복잡한 multi-stage schema를 버리고 semi-supervised object detection을 위한 end-to-end training framework를 제안한다. 우리의 방법은 detection training을 위한 student 모델과 온라인 pseudo-labeling을 위한 지수이동평균(exponential moving average) 전략을 통해 student 모델에 의해 지속적으로 업데이트되는 teacher 모델을 활용하여 detector와 pseudo labels를 동시에 향상시킨다. end-to-end training에서, 우리는 teacher 모델의 효율적인 사용을 위해 soft teacher 와 box jittering 이라는 두 가지 간단한 기술을 제시한다. 제안된 프레임워크는 부분적으로 라벨링된 데이터와 완전히 라벨링된 데이터 모두에서 MS-COCO benchmark에서 SOTA 방법보다 더 나은 결과를 냈다.
 
 
 
@@ -217,12 +326,17 @@ $$
 
 
 
+<br/>
+
+## 6. Acknowledgement
+
+We would like to thank Yue Cao for his valuable suggestions and discussions; Yutong Lin and Yixuan Wei for help on Swin Transformer experiments.
 
 
 
 
 
-
+<br/><br/>
 
 
 
